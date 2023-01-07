@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import TodoModel
 from .forms import TodoForm
 # Create your views here.
@@ -17,5 +17,14 @@ def add_todo(request):
     else:
 
         form = TodoForm()
-        todos = TodoModel.objects.all()
+        todos = TodoModel.objects.filter(is_done=False)
         return render(request, "add_todo.html", {'form': form, 'todos': todos})
+
+
+def detail_todo(request, pk):
+    todos = get_object_or_404(TodoModel, pk=pk)
+    change_status = request.GET.get('change_status', '')
+    if change_status:
+        todos.is_done = True
+        todos.save()
+    return render(request, "detail.html", {'todos': todos})

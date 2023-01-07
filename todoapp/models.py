@@ -12,6 +12,7 @@ class TodoModel(models.Model):
         auto_created=False, auto_now=False, auto_now_add=False, default=datetime.time(12, 0, 0))
     finish_by_date = models.DateField(
         auto_created=False, auto_now=False, auto_now_add=False, default=datetime.date.today)
+    is_done = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

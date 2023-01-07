@@ -24,4 +24,5 @@ class TodoForm(forms.ModelForm):
 
     class Meta:
         model = TodoModel
-        fields = ['title', 'description', 'finish_by_date', 'finish_by_time']
+        fields = ['title', 'description',
+                  'finish_by_date', 'finish_by_time', 'is_done']
