@@ -1,5 +1,6 @@
 from django.db import models
 import datetime
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -13,6 +14,8 @@ class TodoModel(models.Model):
     finish_by_date = models.DateField(
         auto_created=False, auto_now=False, auto_now_add=False, default=datetime.date.today)
     is_done = models.BooleanField(default=False)
+    user = models.ForeignKey(User,
+                             on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title

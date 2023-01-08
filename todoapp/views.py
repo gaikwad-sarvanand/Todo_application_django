@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import TodoModel
+from django.contrib.auth.models import User
 from .forms import TodoForm
 # Create your views here.
 
@@ -14,12 +15,14 @@ def add_todo(request):
     if request.method == 'POST':
         form = TodoForm(request.POST)
         if form.is_valid():
-            form.save()
+            fs = form.save(commit=False)
+            fs.user = request.user
+            fs.save()
         return redirect("todo:add_todo")
     else:
 
         form = TodoForm()
-        todos = TodoModel.objects.filter(is_done=False)
+        todos = TodoModel.objects.filter(user=request.user)
         return render(request, "add_todo.html", {'form': form, 'todos': todos})
 
 
